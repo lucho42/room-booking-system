@@ -11,7 +11,7 @@ Before starting the setup, you will need to:
 
 #### 1. Getting the sources
 
-Under a directory, named as you wish, clone this repository :
+Under a directory, clone this repository :
 
 ```bash
 git clone git@github.com:lucho42/room-booking-system.git
@@ -31,10 +31,11 @@ npm install
 npm run start
 ```
 
-#### 4. Access the application 
+#### 4. Access the application
+
 [http://localhost:3000](http://localhost:3000)
 
 ### Credential Users for testing
 
-* email : **luc@gmail.com** / password : **luc**
-* email : **marius@gmail.com** / password : **marius**
+- email : **luc@gmail.com** / password : **luc**
+- email : **marius@gmail.com** / password : **marius**
