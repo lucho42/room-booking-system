@@ -1,15 +1,57 @@
+//filters
+let filterDaytimeSelect,
+  filterUserReservationsElement,
+  filterAvailableSlotsElement,
+  filterCokeCompanyElement,
+  filterPepsiCompanyElement;
+
+//buttons book/release
+let bookElements, releaseElements;
+//booking list
+let bookingListContainer;
+
 window.addEventListener("DOMContentLoaded", () => {
+  bindFilterActions();
   bindBookingActions();
 });
 
+function bindFilterActions() {
+  filterDaytimeSelect = document.querySelector("#filter-daytime");
+  filterUserReservationsElement = document.querySelector(
+    "#filter-user-reservations"
+  );
+  filterAvailableSlotsElement = document.querySelector(
+    "#filter-available-slots"
+  );
+  filterCokeCompanyElement = document.querySelector("#filter-coke-company");
+  filterPepsiCompanyElement = document.querySelector("#filter-pepsi-company");
+
+  filterDaytimeSelect.addEventListener("change", (e) => {
+    console.log("filterDaytimeSelect");
+    applyFilters();
+  });
+  filterUserReservationsElement.addEventListener("click", (e) => {
+    console.log("filterUserReservationsElement");
+    applyFilters();
+  });
+  filterAvailableSlotsElement.addEventListener("click", (e) => {
+    console.log("filterAvailableSlotsElement");
+    applyFilters();
+  });
+  filterCokeCompanyElement.addEventListener("click", (e) => {
+    console.log("filterCokeCompanyElement");
+    applyFilters();
+  });
+  filterPepsiCompanyElement.addEventListener("click", (e) => {
+    console.log("filterPepsiCompanyElement");
+    applyFilters();
+  });
+}
+
 function bindBookingActions() {
-  const bookElements = document.querySelectorAll("button.booking-slot-book");
-  const releaseElements = document.querySelectorAll(
-    "button.booking-slot-release"
-  );
-  const bookingListContainer = document.querySelector(
-    "#booking-list-container"
-  );
+  bookElements = document.querySelectorAll("button.booking-slot-book");
+  releaseElements = document.querySelectorAll("button.booking-slot-release");
+  bookingListContainer = document.querySelector("#booking-list-container");
 
   bookElements.forEach((e) => {
     e.addEventListener("click", ($event) => {
@@ -51,142 +93,32 @@ function bindBookingActions() {
         });
     });
   });
-
-  const filterDaytimeSelect = document.querySelector("#filter-daytime");
-  const filterUserReservationsElement = document.querySelector(
-    "#filter-user-reservations"
-  );
-  const filterAvailableSlotsElement = document.querySelector(
-    "#filter-available-slots"
-  );
-
-  const filterCokeCompanyElement = document.querySelector(
-    "#filter-coke-company"
-  );
-
-  const filterPepsiCompanyElement = document.querySelector(
-    "#filter-pepsi-company"
-  );
-
-  filterDaytimeSelect.addEventListener("click", (e) => {
-    const value = e.target.value;
-    axios
-      .get(
-        "/bookings/filteredList?daytime=" +
-          value +
-          "&userReservations=" +
-          filterUserReservationsElement.checked +
-          "&availableSlots=" +
-          filterAvailableSlotsElement.checked +
-          "&coke=" +
-          filterCokeCompanyElement.checked +
-          "&pepsi=" +
-          filterPepsiCompanyElement.checked
-      )
-      .then((response) => {
-        bookingListContainer.innerHTML = response.data;
-        bindBookingActions();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
-
-  filterUserReservationsElement.addEventListener("click", (e) => {
-    const checked = e.target.checked;
-    axios
-      .get(
-        "/bookings/filteredList?userReservations=" +
-          checked +
-          "&daytime=" +
-          filterDaytimeSelect.value +
-          "&availableSlots=" +
-          filterAvailableSlotsElement.checked +
-          "&coke=" +
-          filterCokeCompanyElement.checked +
-          "&pepsi=" +
-          filterPepsiCompanyElement.checked
-      )
-      .then((response) => {
-        bookingListContainer.innerHTML = response.data;
-        bindBookingActions();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
-
-  filterAvailableSlotsElement.addEventListener("click", (e) => {
-    const checked = e.target.checked;
-    axios
-      .get(
-        "/bookings/filteredList?availableSlots=" +
-          checked +
-          "&daytime=" +
-          filterDaytimeSelect.value +
-          "&userReservations=" +
-          filterUserReservationsElement.checked +
-          "&coke=" +
-          filterCokeCompanyElement.checked +
-          "&pepsi=" +
-          filterPepsiCompanyElement.checked
-      )
-      .then((response) => {
-        bookingListContainer.innerHTML = response.data;
-        bindBookingActions();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
-
-  filterCokeCompanyElement.addEventListener("click", (e) => {
-    axios
-      .get(
-        "/bookings/filteredList?availableSlots=" +
-          filterAvailableSlotsElement.checked +
-          "&daytime=" +
-          filterDaytimeSelect.value +
-          "&userReservations=" +
-          filterUserReservationsElement.checked +
-          "&coke=" +
-          filterCokeCompanyElement.checked +
-          "&pepsi=" +
-          filterPepsiCompanyElement.checked
-      )
-      .then((response) => {
-        bookingListContainer.innerHTML = response.data;
-        bindBookingActions();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
-
-  filterPepsiCompanyElement.addEventListener("click", (e) => {
-    axios
-      .get(
-        "/bookings/filteredList?availableSlots=" +
-          filterAvailableSlotsElement.checked +
-          "&daytime=" +
-          filterDaytimeSelect.value +
-          "&userReservations=" +
-          filterUserReservationsElement.checked +
-          "&coke=" +
-          filterCokeCompanyElement.checked +
-          "&pepsi=" +
-          filterPepsiCompanyElement.checked
-      )
-      .then((response) => {
-        bookingListContainer.innerHTML = response.data;
-        bindBookingActions();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
 }
 
+function applyFilters() {
+  axios
+    .get(
+      "/bookings/filteredList?daytime=" +
+        filterDaytimeSelect.value +
+        "&userReservations=" +
+        filterUserReservationsElement.checked +
+        "&availableSlots=" +
+        filterAvailableSlotsElement.checked +
+        "&coke=" +
+        filterCokeCompanyElement.checked +
+        "&pepsi=" +
+        filterPepsiCompanyElement.checked
+    )
+    .then((response) => {
+      bookingListContainer.innerHTML = response.data;
+      bindBookingActions();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+// web socket listening
 ioClient.on("UPDATE_BOOKING_DASHBOARD", (data) => {
   const slotId = "#" + data.room + "-" + data.time;
   const slotContainer = document.querySelector(slotId);
