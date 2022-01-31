@@ -1,0 +1,56 @@
+body {
+  font-family: "Oswald", sans-serif !important;
+  background-color: #f8f9fa;
+}
+
+.img-fluid {
+  max-height: 100px;
+}
+.img-fluid-slot {
+  max-height: 35px;
+}
+.navbar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.content {
+  /* max-width: 1500px; */
+  margin-top: 20px;
+}
+
+.profile-container {
+  max-width: 500px;
+  min-width: 180px;
+}
+
+.btn-user {
+  border-radius: 30px;
+}
+
+.column-time {
+  width: 250px;
+}
+
+.slot-times {
+  height: 60px;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
+
+.coke-company {
+  color: #f1d292;
+}
+
+.pepsi-company {
+  color: #e3bae5;
+}
+
+.coke-company-bg {
+  background-color: #f1d292;
+}
+
+.pepsi-company-bg {
+  background-color: #e3bae5;
+}

@@ -1,0 +1,15 @@
+nav(class="navbar navbar-light bg-white")
+  a(class="navbar-brand" href="/bookings")
+    img(width="30" height="30" src="/images/consensys.png")
+  div(class="mr-auto")
+  div
+    if isAuthenticated
+      ul(class="navbar-nav d-flex flex-row ml-auto")
+        li(class="nav-item active")
+          a(class="btn btn-secondary .btn-user" href="/auth/signout") Logout
+    else
+      ul(class="navbar-nav d-flex flex-row ml-auto")
+        li(class="nav-item mr-3")
+          a(class="btn btn-primary .btn-user" href="/auth/signin/form") Login
+        li(class="nav-item")
+          a(class="btn btn-secondary .btn-user" href="/users/signup/form") Inscription

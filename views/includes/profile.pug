@@ -1,0 +1,36 @@
+script(src="/javascripts/profile.js")
+div(class="profile-container bg-white mr-3 d-flex flex-column")
+  div(class="d-flex flex-column mb-2")
+    form( id="form-profile-avatar" class="d-flex p-3 flex-row justify-content-center align-items-center" action="/users/update/image" method="post" enctype="multipart/form-data" )
+      input(type="file" name="avatar" class="d-none" id="input-avatar")
+      img(src=user.avatar class="img-fluid" id="image-profile")
+    div(class="d-flex flex-row justify-content-center align-items-center")
+      p= `${ user.username }`
+    div(class="d-flex flex-row justify-content-center align-items-center")
+      p= `${ user.local.email }`    
+    div(class="d-flex flex-row justify-content-center align-items-center")
+      label(class="mr-3")= `${ user.company }`
+      if user.company === 'coke'
+        i(class="fas fa-building fa-2x coke-company")
+      else if user.company === 'pepsi'
+        i(class="fas fa-building fa-2x pepsi-company")
+  hr(class="w-100 border border-3")
+  div(class="d-flex flex-column mt-2" )
+    select(class="form-select mb-1" id="filter-daytime")
+      option(selected) Daytime
+      option(value="am") Morning
+      option(value="pm") Afternoon
+    div(class="form-check form-switch mt-3")
+      input(class="form-check-input" type="checkbox" role="switch" id="filter-user-reservations")
+      label(class="form-check-label" for="filter-user-reservations") My reservations
+    div(class="form-check form-switch mt-3")
+      input(class="form-check-input" type="checkbox" role="switch" id="filter-coke-company")
+      label(class="form-check-label mr-3" for="filter-coke-company") Coke's res.
+      i(class="fas fa-building coke-company")
+    div(class="form-check form-switch mt-3")
+      input(class="form-check-input" type="checkbox" role="switch" id="filter-pepsi-company")
+      label(class="form-check-label mr-3" for="filter-pepsi-company") Pepsi's res.
+      i(class="fas fa-building pepsi-company")
+    div(class="form-check form-switch mt-3")
+      input(class="form-check-input" type="checkbox" role="switch" id="filter-available-slots")
+      label(class="form-check-label" for="filter-available-slots") Available slots

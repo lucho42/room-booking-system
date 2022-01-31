@@ -1,0 +1,33 @@
+const fs = require("fs");
+const https = require("https");
+const http = require("http");
+const app = require("../app");
+const env = require(`../environment/${process.env.NODE_ENV}`);
+
+// redirect input connection on 80 to 443
+http
+  .createServer((req, res) => {
+    // 301 Moved Permanently (browser cache)
+    res.writeHead(301, {
+      // Location: `https://${req.headers.host}${req.url}`,
+      Location: `https://${
+        req.headers.host.split(":")[0] + ":" + env.portHttps
+      }${req.url}`,
+    });
+    res.end();
+  })
+  .listen(env.portHttp); //default http port (browser default protocol)
+
+const httpsServer = https.createServer(
+  {
+    key: fs.readFileSync(env.key),
+    cert: fs.readFileSync(env.cert),
+  },
+  app // Express application to manage request
+);
+httpsServer.listen(env.portHttps); //default https port
+
+module.exports = httpsServer;
+
+//websocket
+require("../config/socket.config");

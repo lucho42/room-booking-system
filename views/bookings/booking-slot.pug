@@ -1,0 +1,15 @@
+- const isBooking = bookingMap && bookingMap.has(room) && bookingMap.get(room).has(time)
+- const userId = currentUser && currentUser._id ? currentUser._id.toString() : null
+- const bookingId = (bookingMap && bookingMap.has(room) && bookingMap.get(room).has(time)) ? bookingMap.get(room).get(time).id : null
+- const company = (bookingMap && bookingMap.has(room) && bookingMap.get(room).has(time)) ? bookingMap.get(room).get(time).company : null
+- const avatar = isBooking && bookingMap.get(room).get(time).employee ? userMap.has(bookingMap.get(room).get(time).employee._id.toString()) ? userMap.get(bookingMap.get(room).get(time).employee._id.toString()).avatar : "" : ""
+div(class="d-flex flew-row align-items-center h-100 px-3 py-1" + (isBooking ? " " + company + "-company-bg " : ""))
+	div(class="flex-grow-1 flex-shrink-1")= time.toString().padStart(2, '0') + ":00"
+	if (!isBooking)
+		div(class="flex-grow-1 flex-shrink-1")
+			button(class="btn btn-sm btn-primary booking-slot-book" room=room time=time user-id=userId) book
+	if (isBooking && bookingMap.get(room).get(time).employee && userId === bookingMap.get(room).get(time).employee._id.toString())
+		div(class="flex-grow-1 flex-shrink-1 text-center")
+			button(class="btn btn-sm btn-success booking-slot-release" booking-id=bookingId room=room time=time user-id=userId) release
+	div(class="flex-grow-1 flex-shrink-1 text-right")
+		img(src=avatar class="img-fluid-slot")

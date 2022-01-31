@@ -1,0 +1,32 @@
+{
+  "name": "room-booking-system",
+  "version": "1.0.0",
+  "description": "room booking system for cola day",
+  "main": "app.js",
+  "scripts": {
+    "start": "PORT=4000 NODE_ENV=development nodemon ./bin/www",
+    "start:prod": "NODE_ENV=production nodemon ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "luc murat",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "connect-mongo": "^4.4.1",
+    "cookie-parser": "^1.4.6",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.11",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4",
+    "nodemon": "^2.0.7",
+    "pug": "^3.0.2",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "eslint": "^8.7.0"
+  }
+}

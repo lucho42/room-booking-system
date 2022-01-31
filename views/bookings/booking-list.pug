@@ -1,0 +1,15 @@
+if rooms
+	each room in rooms
+		div(class="card m-2 align-self-start")
+			div(class="card-header text-center")= room
+			div(class="card-body")
+				ul(class="list-group list-group-flush column-time")
+				each time in times
+					- const booking = (bookingMap && bookingMap.has(room) && bookingMap.get(room).has(time)) ? bookingMap.get(room).get(time) : null
+					if(!availableSlots || availableSlots && !booking)
+						if(!filterCoke || (filterCoke && booking && booking.company === 'coke'))
+							if(!filterPepsi || (filterPepsi && booking && booking.company === 'pepsi'))
+								if(!filterUserId || (filterUserId && booking && booking.employeeId === filterUserId))
+									li(class="list-group-item border slot-times p-0" id=room+"-"+time)
+										include booking-slot.pug
+						

@@ -1,0 +1,9 @@
+extends ../layout.pug
+
+block content
+	script(src="/javascripts/bookings/booking.js")
+	div(class="d-flex flex-row content mx-auto")
+			include ../includes/profile.pug
+			div(class="flex-fill d-flex flex-row flex-wrap align-items-center justify-content-around" id="booking-list-container")
+				include booking-list.pug
+                  
