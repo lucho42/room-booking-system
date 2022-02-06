@@ -16,6 +16,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function bindFilterActions() {
+  console.log("bindFilterActions");
   filterDaytimeSelect = document.querySelector("#filter-daytime");
   filterUserReservationsElement = document.querySelector(
     "#filter-user-reservations"
@@ -49,49 +50,58 @@ function bindFilterActions() {
 }
 
 function bindBookingActions() {
+  console.log("bindBookingActions");
   bookElements = document.querySelectorAll("button.booking-slot-book");
   releaseElements = document.querySelectorAll("button.booking-slot-release");
   bookingListContainer = document.querySelector("#booking-list-container");
 
   bookElements.forEach((e) => {
-    e.addEventListener("click", ($event) => {
-      const room = $event.target.getAttribute("room");
-      const time = $event.target.getAttribute("time");
-      const userId = $event.target.getAttribute("user-id");
-      axios
-        .post("/bookings", { room, time })
-        .then(function (response) {
-          const slotId = "#" + room + "-" + time;
-          const slotContainer = document.querySelector(slotId);
-          slotContainer.innerHTML = response.data;
-          ioClient.emit("BOOKING_DASHBOARD_CHANGED", { room, time, userId });
-          bindBookingActions();
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
-    });
+    console.log({ listener: e.getAttribute("listener") });
+    if (e.getAttribute("listener") !== "true") {
+      e.addEventListener("click", ($event) => {
+        const room = $event.target.getAttribute("room");
+        const time = $event.target.getAttribute("time");
+        const userId = $event.target.getAttribute("user-id");
+        axios
+          .post("/bookings", { room, time })
+          .then(function (response) {
+            const slotId = "#" + room + "-" + time;
+            const slotContainer = document.querySelector(slotId);
+            slotContainer.innerHTML = response.data;
+            ioClient.emit("BOOKING_DASHBOARD_CHANGED", { room, time, userId });
+            bindBookingActions();
+          })
+          .catch(function (err) {
+            console.log(err);
+          });
+      });
+      e.setAttribute("listener", "true");
+    }
   });
 
   releaseElements.forEach((e) => {
-    e.addEventListener("click", ($event) => {
-      const room = $event.target.getAttribute("room");
-      const time = $event.target.getAttribute("time");
-      const userId = $event.target.getAttribute("user-id");
-      const bookingId = $event.target.getAttribute("booking-id");
-      axios
-        .delete("/bookings/" + bookingId)
-        .then(function (response) {
-          const slotId = "#" + room + "-" + time;
-          const slotContainer = document.querySelector(slotId);
-          slotContainer.innerHTML = response.data;
-          ioClient.emit("BOOKING_DASHBOARD_CHANGED", { room, time, userId });
-          bindBookingActions();
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
-    });
+    console.log({ listener: e.getAttribute("listener") });
+    if (e.getAttribute("listener") !== "true") {
+      e.addEventListener("click", ($event) => {
+        const room = $event.target.getAttribute("room");
+        const time = $event.target.getAttribute("time");
+        const userId = $event.target.getAttribute("user-id");
+        const bookingId = $event.target.getAttribute("booking-id");
+        axios
+          .delete("/bookings/" + bookingId)
+          .then(function (response) {
+            const slotId = "#" + room + "-" + time;
+            const slotContainer = document.querySelector(slotId);
+            slotContainer.innerHTML = response.data;
+            ioClient.emit("BOOKING_DASHBOARD_CHANGED", { room, time, userId });
+            bindBookingActions();
+          })
+          .catch(function (err) {
+            console.log(err);
+          });
+      });
+      e.setAttribute("listener", "true");
+    }
   });
 }
 
@@ -122,6 +132,8 @@ function applyFilters() {
 ioClient.on("UPDATE_BOOKING_DASHBOARD", (data) => {
   const slotId = "#" + data.room + "-" + data.time;
   const slotContainer = document.querySelector(slotId);
-  slotContainer.innerHTML = data.html;
-  bindBookingActions();
+  if (slotContainer) {
+    slotContainer.innerHTML = data?.html;
+    bindBookingActions();
+  }
 });
