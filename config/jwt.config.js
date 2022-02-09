@@ -1,4 +1,5 @@
-const secret = "0c2ee1d1-eb29-486d-baae-5b40f636cb6c"; //uuid (universally unique identifier)
+const globalConfig = require("../config/global.config");
+
 const jwt = require("jsonwebtoken"); // JSON Web Token
 const { findUserPerId } = require("../queries/user.queries");
 const app = require("../app");
@@ -13,7 +14,7 @@ const createJwtToken = ({ user = null, id = null }) => {
       sub: id || user._id.toString(),
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 5, //5h
     },
-    secret
+    globalConfig.jwtSecret
     // { expiresIn: 60 * 60 * 5 } //second => 5h
   );
   return jwtToken;
@@ -29,14 +30,14 @@ const checkExpirationToken = (token, res) => {
   } else if (nowInSec > tokenExp && nowInSec - tokenExp < 60 * 60 * 24) {
     const refreshedToken = createJwtToken({ id: token.sub });
     res.cookie("jwt", refreshedToken);
-    return jwt.verify(refreshedToken, secret);
+    return jwt.verify(refreshedToken, globalConfig.jwtSecret);
   } else {
     throw new Error("token expired");
   }
 };
 
 const decodeJwtToken = (token, res) => {
-  let decodedToken = jwt.verify(token, secret, {
+  let decodedToken = jwt.verify(token, globalConfig.jwtSecret, {
     ignoreExpiration: true,
   });
   decodedToken = checkExpirationToken(decodedToken, res);
